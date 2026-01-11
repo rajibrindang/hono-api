@@ -1,7 +1,24 @@
-import { z } from "zod";
+import z from "zod";
+
+export const getParticipantsQueryValidation = z.object({
+  eventId: z.string().trim(),
+});
+
+export const participantParamValidation = z.object({
+  id: z.string().trim(),
+});
 
 export const createParticipatValidation = z.object({
-  name: z.string().min(1),
-  email: z.string().min(1),
-  eventId: z.string().min(1),
+  name: z.string().trim().min(1, "Name is required"),
+  email: z.email().transform((val) => val.toLocaleLowerCase().trim()),
+  eventId: z.string().trim(),
+});
+
+export const updateParticipantValidation = z.object({
+  name: z.string().trim().optional(),
+  email: z
+    .email()
+    .transform((val) => val.toLowerCase().trim())
+    .optional(),
+  eventId: z.string().trim().optional(),
 });
